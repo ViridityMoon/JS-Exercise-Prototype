@@ -39,9 +39,36 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 }
+
+Person.prototype.eat = function(edible){
+  if(this.stomach.length < 10){
+    this.stomach.push(edible);
+  }
+}
+
+Person.prototype.poop = function(){
+  this.stomach = [];
+}
+
+Person.prototype.toString = function(){
+  return `${this.name}, ${this.age}`;
+}
+
+const personOne = new Person('Noah', 21);
+
+// console.log(personOne.toString());
+// personOne.eat('chicken');
+// personOne.eat('steak');
+// personOne.eat('pork');
+// console.log(personOne.stomach);
+// personOne.poop();
+// console.log(personOne.stomach);
+// personOne.toString();
 
 /*
   TASK 2
@@ -57,9 +84,22 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0
+  this.odometer = 0
 }
+
+Car.prototype.fill = function(fuel) {
+  this.tank += fuel;
+};
+
+const carOne = new Car('Scion', 5);
+
+carOne.fill(5);
+
+console.log(carOne.tank);
 
 /*
   TASK 3
@@ -68,18 +108,39 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  this.name = name;
+  this.age = age;
+  this.favoriteToy = favoriteToy;
 }
+
+Object.getOwnPropertyNames(Baby.prototype);
+
+Baby.prototype = Object.create(Person.prototype);
+
+
+Baby.prototype.play = function() {
+  return (`Playing with ${this.favoriteToy}`);
+};
+
+Object.defineProperty(Baby.prototype, 'constructor', { 
+  value: Baby, 
+  enumerable: false,
+  writable: true 
+});
+
+const newBaby = new Baby('X Æ A-12', 0.5, 'bear');
+
+newBaby.play();
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window/Global Object Binding - If it's not in anything, this refers to JS itself.
+  2. Implicit Binding - This is the object before the dot.
+  3. New Binding - Used in constructor functions, this refers to the object that is created.
+  4. Explicit Binding - Whenever using the call or apply method, this is explicitly defined.
 */
 
 
